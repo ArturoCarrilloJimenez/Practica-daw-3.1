@@ -17,186 +17,154 @@ En esta práctica realizaremos la instalación de **Plesk**, una plataforma de s
 
 ## Grupos de Seguridad
 
-Para comenzar con la instalación, primero debemos crear un nuevo grupo de seguridad en AWS con los siguientes puertos de entrada abiertos:
+Para comenzar con la instalación de este, primero debemos de crear un nuevo grupo de seguridad en AWS con los siguientes puestos de entrada abiertos
 
-Para conectarnos por **SSH, HTTP y HTTPS**:
-- `22`: SSH (TCP)
-- `80`: HTTP (TCP)
-- `443`: HTTPS (TCP)
-- `ICMP`
+Para poder contarnos por __ssh, http y https__ abriremos los siguientes puestos
 
-En caso de usar **FTP**:
-- `21`: FTP (TCP) - Puerto de control (modos activo y pasivo)
-- `20`: FTP (TCP) - Puerto de datos (modo activo)
-- `49152-65535`: Rango de puertos dinámicos (modo pasivo, TCP)
+* `22: SSH (TCP)
+* `80: HTTP (TCP)
+* `443: HTTPS (TCP)
+* `ICMP
 
-Puertos para el servicio de correo electrónico:
-- `25`: SMTP (TCP)
-- `465`: SMTPS (TCP)
-- `143`: IMAP (TCP)
-- `993`: IMAPS (TCP)
-- `110`: POP3 (TCP)
-- `995`: POP3S (TCP)
+En caso de que vallamos a conectarnos mediante __FTP__
 
-![Puertos](./img/image.png)
+* `21: FTP (TCP) - Puerto de control en los modos activo y pasivo
+* `20: FTP (TCP) - Puerto de datos en el modo activo
+* `49152 - 65535: Rango de puertos dinámicos para el modo pasivo (TCP)
 
----
+
+Puertos para el servicio de correo electrónico
+
+* `25: SMTP (TCP)
+* `465: SMTPS (TCP)
+* `143: IMAP (TCP)
+* `993: IMAPS (TCP)
+* `110: POP3 (TCP)
+* `995: POP3S (TCP)
+
+![puertos](./img/image.png)
 
 ## Creación de la instancia
 
 Crearemos una nueva instancia con las siguientes características:
 
-- **Nombre**: `Plesk`
-- **Imagen**: `Ubuntu`
-- **Arquitectura**: `x86`
-- **Tipo de instancia**: `t2.medium (2 vCPUs, 4 GB de RAM)`
-- **Clave secreta**: `vockey`
-- **Grupo de seguridad**: Usaremos el grupo creado anteriormente
-- **Almacenamiento**: `30 GB EBS`
+* __Nombre__ `Plesk
+* __Imagen__ `Ubuntu
+* __Architecture__ `x86
+* __Tipo de instancia__ `t2.medium (2 vCPUs, 4 GB de RAM
+* __Clave secreta__ `vockey
+* __Grupo de seguridad__ `Pondremos el grupo de seguridad creado anteriormente
+* __Almacenamiento__ `30 GB EBS
 
-Además, debemos crear una **IP elástica** y asociarla a esta nueva instancia.
-
----
+Ademas debemos de crear una __ip elástica__ y asociarla a esta nueva instancia
 
 ## Instalación de Plesk
 
-Para instalar Plesk, utilizaremos un script en Bash:
+Para esto utilizamos un script de bash en el cual realizaremos los siguientes pasos.
 
-1. Actualizamos la instancia:
-   ```sh
-   apt update
-   apt upgrade -y
-   ```
+En primer lugar actualizaremos la instancia con los siguientes comandos
 
-2. Eliminamos archivos temporales en caso de conflictos:
-   ```sh
-   rm -rf /tmp/plesk-installer
-   ```
+sh
+apt update
 
-3. Descargamos el instalador y configuramos permisos de ejecución:
-   ```sh
-   wget https://autoinstall.plesk.com/plesk-installer -P /tmp
-   chmod +x /tmp/plesk-installer
-   ```
+apt upgrade -y
 
-4. Instalamos Plesk:
-   ```sh
-   /tmp/plesk-installer install plesk
-   ```
 
-   Este proceso tomará unos 10 minutos. Una vez finalizado, se mostrarán dos enlaces:
-   - Para registrar una cuenta.
-   - Para acceder con una clave sin registro.
+Posteriormente para que no allá conflictos en caso de ya haber instalado plesk en los archivos temporales, lo eliminaremos con el comando `rm -rf /tmp/plesk-installer
 
-Si necesitas volver a mostrar estos enlaces, usa el siguiente comando:
-```sh
-sudo plesk login
-```
+Ademas debemos de instalar el código fuente de este y cambiar los permisos de este añadiéndole el permiso de ejecución
 
-Si todo está correcto, al ingresar la IP de la instancia deberías ver la siguiente pantalla:
+sh
+wget https://autoinstall.plesk.com/plesk-installer -P /tmp
 
-![Login de Plesk](./img/indexPlesk.png)
+chmod +x /tmp/plesk-installer
 
----
 
-## Creación de dominio y despliegue de WordPress
+Por ultimo realizaremos la instalación de Plesk con el siguiente comando `/tmp/plesk-installer install plesk, esto tardara bastante (10 min aproximadamente), una vez que finalize nos mostrara 2 enlaces, el primero sera para registrar una cuanta y el segundo sera para entrar con una clave sin la necesidad de registrarse.
 
-1. Haz clic en el botón **Add Domain**.
-   ![Botón de creación de dominios](./img/btnadddomain.png)
+En caso de no haber abierto ninguno de estos dos enlaces podremos volver a mostrarlos con el siguiente comando `sudo plesk login
 
-2. Selecciona WordPress como aplicación para desplegar.
-   ![Panel para añadir un dominio](./img/panelAddDomain.png)
+Si hemos seguido los pasos correctamente, al poner la ip de nuestra instancia deberemos ver la siguiente pantalla
 
-3. Introduce la IP elástica seguida de `.nip.io`:
-   ![Panel de configuración para dominio](./img/paneldomain.png)
+![login de plesk](./img/indexPlesk.png)
 
-Una vez completado este proceso, tu página web de WordPress estará lista y podrás acceder a través de la URL configurada.
+## Creación de dominio y despliegue de wordpress
+
+![Botones de creación de dominios y subdominios](./img/btnadddomain.png)
+
+En primer lugar crearemos un dominio, para esto haremos click en el botón azul que pone __Add domain__ y se nos abrirá el siguiente panel para seleccionar lo que queremos desplegar, con el periodo de prueba solo nos permitirá realizar un dominio
+
+![panel para añadir un dominio de plesk](./img/panelAddDomain.png)
+
+En nuestro caso desplegaremos WordPress, al seleccionar este se nos abrirá la siguiente sección donde pondremos la IP elástica de la instancia seguidamente de `.nip.io 
+
+![panel para añadir un dominio de plesk](./img/paneldomain.png)
+
+Una vez hecho esto, se abra creado nuestra pagina web de WordPress y si accedemos ha esta ruta se mostrara la web
 
 ![WordPress](./img/wordpress.png)
 
----
+## Creación de Subdominios mediante archivos
 
-## Creación de subdominios mediante archivos
+Para esto aremos click en el botón de __Add Subdomain__, posteriormente se nos abrirá un formulario donde podremos el nombre que tendrá nuestro subdominio y le daremos a __OK__, esperamos a que se cree el subdominio y posteriormente seleccionaremos la opción de __File__ y hay subiremos los archivos que necesitemos (Importante: elimina el index que crea por defecto y reemplázalo por el tuyo)
 
-1. Haz clic en el botón **Add Subdomain**.
+![Opciones de desplegar dominio](./img/subdominio.png)
 
-2. Completa el formulario con el nombre del subdominio y haz clic en **OK**.
+## Certificado de lets encrypt
 
-3. Una vez creado el subdominio, selecciona la opción **File** para subir los archivos necesarios.
-   - **Importante**: Elimina el archivo `index` generado por defecto y reemplázalo con el tuyo.
+Para añadir un certificado a un dominio o subdominio debemos de darle a la opción de __SSL/TLS Certificate__ y hay se nos abrirá una ventana donde haremos scroll asta el final y seleccionaremos la siguiente opción
 
-![Opciones para desplegar subdominio](./img/subdominio.png)
+![Certificado de lest encrypt](./img/certificadoLestEncrypt.png)
 
----
-
-## Certificado de Let's Encrypt
-
-Para añadir un certificado SSL/TLS:
-
-1. Ve a la opción **SSL/TLS Certificate**.
-
-2. Haz scroll hasta el final y selecciona **Let's Encrypt**.
-![Certificado de Let's Encrypt](./img/certificadoLestEncrypt.png)
-
-3. Introduce un correo electrónico y haz clic en **Get it free**.
-
-Esto generará un certificado SSL gratuito para tu dominio o subdominio.
-
----
+Una vez seleccionado este se nos abrirá una barra lateral donde introduciremos un correo electrónico y le daremos click a __opener nuestro dominio__, esto cargara un par de cosas y de esta forma ya tendremos nuestro certificado de forma gratuita
 
 ## Creación de bases de datos
 
-1. Ve a la sección **Databases** y haz clic en **Add Database**.
+Para crear bases de datos iremos al apartado __Databases__ y hay haremos click a __Add Database__, aquí se nos abrirá una nueva ventana donde podremos introducir el nombre entre otras cosas sobre esta
 
-2. Completa el formulario con:
-   - Nombre de la base de datos.
-   - Nombre de usuario.
-   - Contraseña.
+![Panel de control de bases de datos](./img/dbConfig.png)
 
-3. Haz clic en **OK** para crear la base de datos.
+Aquí pondremos el nombre de la base de datos, el username, la contraseña y le daremos ha aceptar, de esta forma ya habremos creado una base de datos
 
-Una vez creada, podrás acceder a **phpMyAdmin** para gestionar tablas y datos.
+![Formulario para la creación de la bases de datos](./img/formAddDb.png)
 
-![Formulario para creación de bases de datos](./img/formAddDb.png)
+Una vez terminado, podremos acceder a PhpMyAdmin y hay ya creamos las tablas que necesitemos
 
----
+![Opciones de la base de datos](./img/configDb.png)
 
-## Despliegue mediante Git
+## Despliegue mediante git
 
-1. Crea un subdominio y añádele un certificado de Let's Encrypt.
+Para este crearemos en primer lugar un subdominio y le añadiremos un certificado de lest encrypt, posteriormente en el apartado de __Dashboard__ elegiremos la opción de __git__ y haremos click en el botón que pone __Add repository__, aquí se nos abrirá la siguiente barra lateral
 
-2. En el **Dashboard**, selecciona **Git** y haz clic en **Add Repository**.
-   ![Menú para añadir un repositorio](./img/menuAddRepoGit.png)
+![Menu para añadir un repositorio](./img/menuAddRepoGit.png)
 
-3. Completa el formulario con:
-   - La URL del repositorio (usa el enlace SSH, no HTTPS).
+Debemos de poner en el primer campo el url de nuestro repositorio de github que queremos desplegar, aquí debemos de copiar el enlace por __SSH__ no por HTTPS
 
-### Añadir clave SSH a GitHub
+### Añadir calve SSH a GitHub
 
-1. Copia el contenido de la clave pública SSH generada.
+Posteriormente comparemos __SSH public key content__ y iremos a los ajustes de nuestra cuenta de GitHub y en el apartado de __SSH and GPG Key__ le daremos a __New SSH Key__
 
-2. Ve a los ajustes de GitHub, en la sección **SSH and GPG Keys**, y selecciona **New SSH Key**.
-   ![Menú de configuración de clave SSH](./img/sshKey.png)
+![Menu de configuración de la clave SSH](./img/sshKey.png)
 
-3. Introduce un título y pega la clave copiada.
+Hay se nos abrirá una ventana con dos campos, el titulo que pondremos lo que queramos y el segundo (Key) que pondremos hay nuestra clave que hemos copiado anteriormente
 
 ### Añadir Webhook
 
-1. Copia el enlace generado en el formulario del repositorio.
+Para esto copiaremos el enlace que nos mostrara en el formulario de cuando añadimos el repo de git, nos vamos a la configuración del repositorio y en el apartado de Webhook añadimos el link de este y le damos ha guardar
 
-2. Ve a la configuración del repositorio en GitHub y en la sección **Webhook**, añade el enlace y guarda los cambios.
-   ![Menú de configuración de Webhook](./img/webhook.png)
+![Menu de configuración de los Webhook](./img/webhook.png)
 
 ### Conectar una base de datos
 
-En el apartado de despliegue, agrega los siguientes comandos para conectar la base de datos:
+Por ultimo seleccionaremos el siguiente apartado que nos abrirá un campo de texto y donde pondremos los siguientes comandos para conectar una base de datos a nuestro despliegue
 
-```sh
+![check para añadir comandos para el despliegue](./img/deploy.png)
+
+sh
 #!/bin/bash
 sed -i "s/database_name_here/lamp_db/" src/config.php
 sed -i "s/username_here/lamp_user/" src/config.php
 sed -i "s/password_here/Lh8m!f015/" src/config.php
-```
 
-De esta forma, el despliegue mediante Git estará completado.
 
+De esta forma ya tendríamos hecho nuestro despliega mediante git
