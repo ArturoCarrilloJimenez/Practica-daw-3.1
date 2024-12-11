@@ -45,4 +45,33 @@ Crearemos una nueva instancia con las siguientes características:
 
 Ademas debemos de crear una __ip elástica__ y asociarla a esta nueva instancia
 
+## Instalación de Plesk
+
+Para esto utilizamos un script de bash en el cual realizaremos los siguientes pasos.
+
+En primer lugar actualizaremos la instancia con los siguientes comandos
+
+``` sh
+apt update
+
+apt upgrade -y
+```
+
+Posteriormente para que no allá conflictos en caso de ya haber instalado plesk en los archivos temporales, lo eliminaremos con el comando ``rm -rf /tmp/plesk-installer``
+
+Ademas debemos de instalar el código fuente de este y cambiar los permisos de este añadiéndole el permiso de ejecución
+
+``` sh
+wget https://autoinstall.plesk.com/plesk-installer -P /tmp
+
+chmod +x /tmp/plesk-installer
+```
+
+Por ultimo realizaremos la instalación de Plesk con el siguiente comando ``/tmp/plesk-installer install plesk``, esto tardara bastante (10 min aproximadamente), una vez que finalize nos mostrara 2 enlaces, el primero sera para registrar una cuanta y el segundo sera para entrar con una clave sin la necesidad de registrarse.
+
+En caso de no haber abierto ninguno de estos dos enlaces podremos volver a mostrarlos con el siguiente comando ``sudo plesk login``
+
+Si hemos seguido los pasos correctamente, al poner la ip de nuestra instancia deberemos ver la siguiente pantalla
+
+![login de plesk](./img/indexPlesk.png)
 
