@@ -160,11 +160,12 @@ Por ultimo seleccionaremos el siguiente apartado que nos abrirá un campo de tex
 
 ![check para añadir comandos para el despliegue](./img/deploy.png)
 
-sh
+```sh
 #!/bin/bash
 sed -i "s/database_name_here/lamp_db/" src/config.php
 sed -i "s/username_here/lamp_user/" src/config.php
 sed -i "s/password_here/Lh8m!f015/" src/config.php
+```
 
 
 De esta forma ya tendríamos hecho nuestro despliega mediante git
